@@ -159,8 +159,7 @@
         <p style="text-align: center; font-size: 18px;">Your First-Try Score: <strong id="final-score" style="color: #0066cc;">0</strong> out of <strong id="final-total">0</strong></p>
         <p style="text-align: center; font-size: 18px;">Total Time: <strong id="final-time" style="color: #d9534f;">00:00</strong></p>
         
-        <div id="missed-container" class="missed-review">
-            </div>
+        <div id="missed-container" class="missed-review"></div>
 
         <button class="btn" onclick="location.reload()" style="margin-top: 25px;">Back to Start Menu</button>
     </div>
@@ -173,51 +172,53 @@
         { type: "radio", question: "What does GP stand for?", options: ["Grand Prix", "Gracious Professionalism", "Good Professionalism", "Grated Parmesan"], correct: 1 },
         
         // FIELD RULES
-        { type: "radio", question: "How tall is the space under the TRENCH arm? (5.6)", options: ["22.25 in (56.52 cm) tall", "20.50 in (52.07cm) tall", "23.50 in (59.69 cm) tall", "21.75 in (55.25 cm) tall"], correct: 0 },
-        { type: "radio", question: "How tall is the DEPOT taking into account the hook fastener? (5.7)", options: ["2.125 in (5.40 cm)", "3.0 in (7.62 cm)", "1.0 in (2.54 cm)", "1.125 in (2.86 cm)"], correct: 3 },
-        { type: "radio", question: "How many seconds before deactivation does the ALLIANCE color on the HUB pulse? (5.4)", options: ["4", "5", "2", "3"], correct: 3 },
-        { type: "radio", question: "How tall are each of the RUNGS from the ground? (5.8)", options: ["28.0 in (71.12 cm), 46.0 in (116.84 cm), 72.0 in (182.88 cm)", "27.0 in (68.58 cm), 45.0 in (114.3cm), 63.0 in (1.6 m)", "27.0 in (68.58 cm), 46.0 in (116.84 cm), 72.0 in (182.88 cm)", "29.0 in (73.66 cm), 45.0 in (114.3 cm), 59.0 in (149.86 cm)"], correct: 1 },
-        { type: "radio", question: "How tall is the bottom of the OUTPOST from the floor? (5.9.2)", options: ["35.8 in (90.8 cm)", "32.0 in (81.3 cm)", "28.1 in (71.4 cm)", "31.8 in (80.8 cm)"], correct: 2 },
-        { type: "radio", question: "What are the dimensions of the SCORING ELEMENT? (5.10.1)", options: ["1.66 in (4.216 cm)", "8.13 in (20.6 cm)", "7.0 in (17.8 cm)", "5.91 in (15.0 cm)"], correct: 2 },
-        { type: "radio", question: "How far up is the front edge of each HUB’s hexagonal opening from the carpet? (5.4)", options: ["72 in (~1.83m)", "65.65 in (1.668m)", "73.0 in (1.854m)", "42.0 in (1.07m)"], correct: 0 },
-        { type: "radio", question: "What zone(s)/area(s) can the robot score in the HUB from? (7.4.2)", options: ["Alliance Zone", "Alliance Area", "Neutral Zone", "Outpost Area"], correct: 0 },
-        { type: "radio", question: "How tall is the peak of the BUMPS? (5.6)", options: ["7.823 in (19.8 cm)", "6.852 in (17.4 cm)", "7.231 in (18.37 cm)", "6.513 in (16.54 cm)"], correct: 3 },
-        { type: "radio", question: "How many of each field element are on the field for each alliance? (5.2)", options: ["1 OUTPOST, 1 HUB, 1 TOWER, 2 DEPOTS, 2 BUMPS, 2 TRENCHES", "1 OUTPOST, 1 HUB, 1 TOWER, 1 DEPOT, 2 BUMPS, 2 TRENCHES", "2 OUTPOST, 2 HUB, 2 TOWERS, 2 DEPOTS, 4 BUMPS, 4 TRENCHES", "1 OUTPOST, 1 HUB, 2 TOWERS, 1 DEPOT, 4 BUMPS, 4 TRENCHES"], correct: 1 },
+        { type: "radio", question: "How tall is the space under the TRENCH arm?", options: ["22.25 in", "20.50 in", "23.50 in", "21.75 in"], correct: 0 },
+        { type: "radio", question: "How tall is the DEPOT taking into account the hook fastener?", options: ["2.125 in", "3.0 in", "1.0 in", "1.125 in"], correct: 3 },
+        { type: "radio", question: "How tall are each of the RUNGS from the ground?", options: ["28 in, 46 in, 72 in", "27 in, 45 in, 63 in", "29 in, 45 in, 59 in"], correct: 0 },
+        { type: "radio", question: "How tall is the bottom of the OUTPOST from the floor?", options: ["35.8 in", "32.0 in", "28.1 in", "31.8 in"], correct: 3 },
+        { type: "radio", question: "What are the dimensions of the SCORING ELEMENT?", options: ["1.66 in diameter", "8.13 in diameter", "7.0 in diameter", "5.91 in diameter"], correct: 2 },
+        { type: "radio", question: "How far up is the front edge of each HUB’s hexagonal opening from the carpet?", options: ["72 in", "65.65 in", "73.0 in", "42.0 in"], correct: 0 },
+        { type: "radio", question: "What zone(s)/area(s) can the robot score in the HUB from?", options: ["Alliance Zone", "Alliance Area", "Neutral Zone", "Outpost Area"], correct: 0 },
+        { type: "radio", question: "How tall is the peak of the BUMPS?", options: ["7.823 in", "6.852 in", "7.231 in", "6.513 in"], correct: 0 },
+        { type: "radio", question: "How many of each field element are on the field for each alliance?", options: ["1 OUTPOST, 1 HUB, 1 TOWER, 2 DEPOTS, 2 BUMPS, 2 TRENCHES", "1 OUTPOST, 1 HUB, 1 TOWER, 1 DEPOT, 2 BUMPS, 2 TRENCHES", "2 OUTPOST, 2 HUB, 2 TOWERS, 2 DEPOTS, 4 BUMPS, 4 TRENCHES"], correct: 1 },
+
+        // MATCH TIMING
+        { type: "checkbox", question: "How long is each part of the MATCH?", options: ["AUTO: 20 sec", "ENDGAME: 30 sec", "ALLIANCE SHIFT: 25 sec", "TRANSITION SHIFT: 10 sec", "AUTO: 15 sec"], correct: [0, 1, 2, 3] },
 
         // GAME RULES
-        { type: "checkbox", question: "How many points is each of the following actions worth in AUTO? (6.5.3)", options: ["EACH ROBOT at LEVEL 1 of the TOWER (2 max): 15", "FUEL scored in an active HUB: 2", "Each ROBOT at LEVEL 3 of the TOWER: 35", "FUEL scored in an active HUB: 1", "Each ROBOT at LEVEL 2 of the TOWER: 25", "FUEL scored in an inactive HUB: 1"], correct: [0, 1] },
-        { type: "radio", question: "How many FUEL can a ROBOT CONTROL after the start of the MATCH? (5.10)", options: ["24", "12", "Any number of FUEL", "8"], correct: 2 },
-        { type: "checkbox", question: "How many points is each of the following TOWER actions worth in END GAME? (6.5.3)", options: ["EACH ROBOT at LEVEL 1 of the TOWER: 15", "EACH ROBOT at LEVEL 1 of the TOWER: 10", "EACH ROBOT at LEVEL 2 of the TOWER: 30", "EACH ROBOT at LEVEL 2 of the TOWER: 20", "EACH ROBOT at LEVEL 3 of the TOWER: 30", "EACH ROBOT at LEVEL 3 of the TOWER: 25"], correct: [1, 3, 4] },
-        { type: "radio", question: "How many points is each of the following actions worth in TELE? (6.5.3)", options: ["FUEL scored in an inactive HUB: 2", "FUEL scored in an active HUB: 2", "FUEL scored in an active HUB: 1", "FUEL scored in an active HUB: 3"], correct: 2 },
-        { type: "radio", question: "FUEL may only be introduced to the FIELD by a HUMAN PLAYER or DRIVER in which of the following ways? (7.4.5)", options: ["Through the LOADING STATION", "Thrown from the OUTPOST AREA", "Through the CHUTE", "Through the bottom opening in the OUTPOST"], correct: 3 },
-        { type: "checkbox", question: "How long is each part of the MATCH? Select all that are correct. (6.4)", options: ["AUTO: 20 sec", "ENDGAME: 30 sec", "ENDGAME: 15 sec", "ALLIANCE SHIFT: 25 sec", "TRANSITION SHIFT: 15 sec", "AUTO: 15 sec", "TRANSITION SHIFT: 10 sec", "ALLIANCE SHIFT: 30 sec"], correct: [0, 6, 7] },
-        { type: "radio", question: "How will FUEL be distributed in the NEUTRAL ZONE? (6.3.4)", options: ["A variable number in a roughly grid-shaped format with roughly equal split", "A constant number in a perfect grid with equal split", "A constant number in a roughly grid-shaped format", "A variable number in a perfect grid"], correct: 0 },
-        { type: "radio", question: "What is the penalty for contacting a ROBOT, directly or transitively, in contact with an opponent TOWER during the last 30 seconds of the MATCH? (7.4.4)", options: ["MINOR FOUL and opponent ROBOT awarded LEVEL 2 TOWER points", "MAJOR FOUL and opponent ROBOT awarded LEVEL 3 TOWER points", "MINOR FOUL and opponent ROBOT awarded LEVEL 1 TOWER points", "MAJOR FOUL and opponent ROBOT awarded LEVEL 2 TOWER points"], correct: 1 },
-        { type: "radio", question: "How are FUEL staged at the start of each MATCH? (6.3.4)", options: ["24 in DEPOT, 24 in OUTPOST CHUTE, 12 preloaded, 360-408 in NEUTRAL ZONE", "32 in DEPOT, 24 in OUTPOST CHUTE, 8 preloaded, 400-500 in NEUTRAL ZONE", "20 in DEPOT, 20 in OUTPOST CHUTE, 10 preloaded, 240-360 in NEUTRAL ZONE", "24 in DEPOT, 24 in OUTPOST CHUTE, 8 preloaded, 360-408 in NEUTRAL ZONE"], correct: 3 },
-        { type: "checkbox", question: "Which of the following may the ROBOT contact and still qualify for TOWER points? (6.5.2)", options: ["The TOWER WALL", "The CARPET", "FUEL", "The TOWER BASE", "Another ROBOT", "The RUNGS", "The UPRIGHTS"], correct: [0, 5, 6] },
+        { type: "checkbox", question: "How many points is each of the following actions worth in AUTO?", options: ["Level 1: 15", "Active HUB FUEL: 2", "Level 3: 35", "Level 2: 25", "Inactive HUB FUEL: 1", "Active HUB FUEL: 1"], correct: [0, 1, 2, 3, 4] },
+        { type: "radio", question: "How many FUEL can a ROBOT CONTROL after the start of the MATCH?", options: ["24", "12", "Any number of FUEL", "8"], correct: 1 },
+        { type: "checkbox", question: "How many points is each of the following TOWER actions worth in END GAME?", options: ["LEVEL 1: 15", "LEVEL 1: 10", "LEVEL 2: 30", "LEVEL 2: 20", "LEVEL 3: 30", "LEVEL 3: 25"], correct: [1, 3, 4] },
+        { type: "radio", question: "How many points are FUEL scored worth in TELEOP?", options: ["Active HUB: 2, Inactive HUB: 1", "Active HUB: 1, Inactive HUB: 2", "Active HUB: 3, Inactive HUB: 1"], correct: 0 },
+        { type: "checkbox", question: "FUEL may only be introduced to the FIELD by a HUMAN PLAYER or DRIVER in which of the following ways?", options: ["Through the LOADING STATION", "Thrown from the OUTPOST AREA", "Through the CHUTE", "Through the bottom opening in the OUTPOST"], correct: [2, 3] },
+        { type: "radio", question: "How will FUEL be distributed in the NEUTRAL ZONE?", options: ["Variable number, roughly grid-shaped format, roughly equal split", "Constant number, perfect grid, equal split", "Constant number, roughly grid-shaped format", "Variable number, perfect grid"], correct: 0 },
+        { type: "radio", question: "What is the penalty for contacting a ROBOT touching an opponent TOWER during the last 30 seconds of the MATCH?", options: ["MINOR FOUL + opponent awarded Level 2", "MAJOR FOUL + opponent awarded Level 3", "MINOR FOUL + opponent awarded Level 1", "MAJOR FOUL + opponent awarded Level 2"], correct: 1 },
+        { type: "radio", question: "How are FUEL staged at the start of each MATCH?", options: ["24 DEPOT, 24 OUTPOST CHUTE, 12 preloaded, 360-408 NEUTRAL ZONE", "32 DEPOT, 24 OUTPOST CHUTE, 8 preloaded, 400-500 NEUTRAL ZONE", "20 DEPOT, 20 OUTPOST CHUTE, 10 preloaded, 240-360 NEUTRAL ZONE", "24 DEPOT, 24 OUTPOST CHUTE, 8 preloaded, 360-408 NEUTRAL ZONE"], correct: 3 },
+        { type: "checkbox", question: "Which of the following may the ROBOT contact and still qualify for TOWER points?", options: ["TOWER WALL", "CARPET", "FUEL", "TOWER BASE", "Another ROBOT", "RUNGS", "UPRIGHTS"], correct: [5, 6] },
 
         // ROBOT RULES
-        { type: "radio", question: "What is the maximum robot perimeter and height in a robot's starting configuration? (8.1)", options: ["Height: 35.0 in, Perimeter: 110.0 cm", "Height: 45.0 in, Perimeter: 115.0 in", "Height: 30.0 in, Perimeter: 110.0 in", "Height: 25.0 in, Perimeter: 120.0 in"], correct: 2 },
-        { type: "radio", question: "What is the maximum vertical height limit? (8.1)", options: ["55.0in (1.397 m)", "45.0in (1.143 m)", "30.0in (0.762 m)", "25.0in (0.635 m)"], correct: 2 },
-        { type: "radio", question: "What is the maximum ROBOT weight with and without BUMPERS? (8.1 & 8.4)", options: ["125 lb without bumpers, no limit with", "115lb without bumpers, 135lb with bumpers", "125lb without bumpers, 135 lb with bumpers", "115lb without bumpers, 125lb with bumpers"], correct: 1 },
-        { type: "radio", question: "In how many directions can a robot extend beyond the robot perimeter at a time? (8.1)", options: ["0", "2", "1", "All direction"], correct: 2 },
-        { type: "radio", question: "Is the ROBOT PERIMETER defined as with or without BUMPERS? (8.1)", options: ["With bumpers", "Without bumpers"], correct: 1 },
-        { type: "radio", question: "Scenario: If your robot's starting vertical configuration is 30in (76.2cm), how much can you expand vertically once the match starts?", options: ["30in (76.2cm)", "0in (0cm)", "12in (30.48cm)", "10in (25.4cm)"], correct: 1 },
-        { type: "radio", question: "How far can the ROBOT expand beyond the ROBOT PERIMETER during the match? (8.1)", options: ["0 in (0 cm)", "1 ft 6 in (45.72 cm)", "6 in (15.24 cm)", "1 ft (30.48 cm)"], correct: 3 },
-        { type: "radio", question: "What are the depth and height of foam padding for BUMPERS respectively? (8.4)", options: ["2 ¼ in, 4 ½ in", "3 in, 5 ¼ in", "2 in, 4 in", "2 ½ in, 5 in"], correct: 3 },
+        { type: "radio", question: "What is the maximum robot perimeter and height in a robot's starting configuration?", options: ["Max Perimeter: 110 in, Max Height: 35 in", "Max Perimeter: 115 in, Max Height: 45 in", "Max Perimeter: 120 in, Max Height: 30 in"], correct: 2 },
+        { type: "radio", question: "What is the maximum vertical height limit?", options: ["55 in", "45 in", "30 in", "25 in"], correct: 0 },
+        { type: "radio", question: "What is the maximum ROBOT weight with and without BUMPERS?", options: ["125 lb without bumpers, no limit with", "115 lb without bumpers, 135 lb with bumpers", "125 lb without bumpers, 135 lb with bumpers"], correct: 2 },
+        { type: "radio", question: "In how many directions can a robot extend beyond the robot perimeter at a time?", options: ["0", "2", "1 direction", "All directions"], correct: 2 },
+        { type: "radio", question: "Is the ROBOT PERIMETER defined as with or without BUMPERS?", options: ["With bumpers", "Without bumpers"], correct: 1 },
+        { type: "radio", question: "What is the maximum vertical extension allowed during MATCH?", options: ["30 in", "0 in", "12 in", "10 in"], correct: 1 },
+        { type: "radio", question: "How far can the ROBOT extend beyond the ROBOT PERIMETER during the match?", options: ["0 in", "1 ft 6 in", "6 in", "1 ft"], correct: 2 },
+        { type: "radio", question: "What are the depth and height of foam padding for BUMPERS respectively?", options: ["2.25 in thick, 4.5 in tall", "3 in thick, 5.25 in tall", "2 in thick, 4 in tall", "2.5 in thick, 5 in tall"], correct: 0 },
 
         // TOURNAMENT RULES
-        { type: "ranking", question: "If final MATCH scores for both ALLIANCES in a Playoff MATCH are equal, the win is awarded to the ALLIANCE per… (10.6.2.1)", options: ["ALLIANCE AUTO FUEL points", "MATCH is replayed", "ALLIANCE TOWER points", "Cumulative MAJOR FOUL points due to opponent rule violations"], correctRanks: [2, 4, 3, 1] },
-        { type: "radio", question: "How much FUEL must be scored to gain the SUPERCHARGED Ranking Point? (6.5.3)", options: ["180", "360", "100", "504"], correct: 1 },
-        { type: "radio", question: "How many ranking points is a TIE worth? (6.5.3)", options: ["3 RP", "1 RP", "2 RP", "0 RP"], correct: 1 },
-        { type: "radio", question: "How much FUEL must be scored to gain the ENERGIZED Ranking Point? (6.5.3)", options: ["100", "504", "360", "180"], correct: 0 },
-        { type: "radio", question: "How many ranking points is a WIN worth? (6.5.3)", options: ["3 RP", "2 RP", "1 RP", "4 RP"], correct: 1 },
-        { type: "radio", question: "What elimination system is used in tournaments? (10.6.2)", options: ["Elimination tournament", "Alliance elimination system", "Round robin", "Single elimination tournament", "Double elimination tournament"], correct: 4 },
-        { type: "radio", question: "Which of the following situations will result in a MATCH Replay? (10.2)", options: ["Broken FIELD elements due to normal play", "ROBOT abuse of FIELD elements", "Power failure to a portion of the FIELD", "A ROBOT radio disconnect"], correct: 2 },
-        { type: "checkbox", question: "In what cases does a team that normally scores 3 Ranking Points earn 0? (10.5.3)", options: ["A SURROGATE receives 0 Ranking Points.", "A DISQUALIFIED team receives 0 Ranking Points.", "A “no-show” team receives 0 Ranking Points.", "A team is issued a YELLOW CARD during a MATCH"], correct: [0, 1, 2] },
-        { type: "radio", question: "Which of the following combinations of TOWER climbs will gain the TRAVERSAL Ranking Point? (6.5.3)", options: ["One LEVEL 1 climb in AUTO, two LEVEL 2 climbs in TELEOP", "One LEVEL 1 climb in AUTO, three LEVEL 1 climbs in TELEOP", "One LEVEL 2 climb and one LEVEL 3 climb in TELEOP", "Two LEVEL 3 climbs in TELEOP", "Two LEVEL 1 climbs in AUTO, one LEVEL 1 climb in TELEOP"], correct: 3 },
-        { type: "radio", question: "What is the maximum number of Ranking Points an alliance can earn in a single match? (6.5.3)", options: ["4 RP", "7 RP", "5 RP", "3 RP", "6 RP"], correct: 2 },
-        { type: "ranking", question: "What is the order of the Qualification MATCH ranking criteria? (10.5.3)", options: ["Average ALLIANCE MATCH points, not including FOULS", "Ranking Score", "Average TOWER points", "Random sorting by the FMS", "Average FUEL scored in AUTO"], correctRanks: [4, 1, 3, 5, 2] }
+        { type: "ranking", question: "Playoff Tie Breaker Order (Rank 1 for first tiebreaker, etc.)", options: ["AUTO FUEL points", "Replay", "TOWER points", "Cumulative MAJOR FOUL points"], correctRanks: [2, 4, 1, 3] },
+        { type: "radio", question: "How much FUEL must be scored to gain the SUPERCHARGED Ranking Point?", options: ["180", "360 FUEL", "100", "504"], correct: 1 },
+        { type: "radio", question: "How many ranking points is a TIE worth?", options: ["3 RP", "1 RP", "2 RP", "0 RP"], correct: 1 },
+        { type: "radio", question: "How much FUEL must be scored to gain the ENERGIZED Ranking Point?", options: ["100 FUEL", "504", "360", "180"], correct: 0 },
+        { type: "radio", question: "How many ranking points is a WIN worth?", options: ["3 RP", "2 RP", "1 RP", "4 RP"], correct: 1 },
+        { type: "radio", question: "What elimination system is used in tournaments?", options: ["Elimination tournament", "Alliance elimination system", "Round robin", "Double elimination tournament"], correct: 1 },
+        { type: "checkbox", question: "Which of the following situations will result in a MATCH Replay?", options: ["Broken FIELD element due to normal gameplay", "ROBOT abuse of FIELD elements", "Power failure to portion of FIELD", "A ROBOT radio disconnect"], correct: [0, 2] },
+        { type: "checkbox", question: "In what cases does a team that normally scores 3 Ranking Points earn 0?", options: ["SURROGATE team", "DISQUALIFIED team", "No-show team", "YELLOW CARD team"], correct: [1, 2] },
+        { type: "radio", question: "Which of the following combinations of TOWER climbs will gain the TRAVERSAL Ranking Point?", options: ["One LEVEL 1 climb in AUTO, two LEVEL 2 climbs in TELEOP", "One LEVEL 1 climb in AUTO, three LEVEL 1 climbs in TELEOP", "One LEVEL 2 climb and one LEVEL 3 climb in TELEOP", "Two Level 3 climbs in TELEOP", "Two LEVEL 1 climbs in AUTO, one LEVEL 1 climb in TELEOP"], correct: 3 },
+        { type: "radio", question: "What is the maximum number of Ranking Points an alliance can earn in a single match?", options: ["4 RP", "7 RP", "5 RP", "3 RP", "6 RP"], correct: 4 },
+        { type: "ranking", question: "What is the order of the Qualification MATCH ranking criteria?", options: ["Avg ALLIANCE MATCH points (no fouls)", "Ranking Score", "Avg TOWER points", "Random sort", "Avg AUTO FUEL"], correctRanks: [2, 1, 3, 5, 4] },
+        { type: "ranking", question: "If BLUE wins AUTO, what is the HUB activation order? (Rank 1 for AUTO, 2 for TRANSITION, etc.)", options: ["AUTO (BLUE)", "TRANSITION SHIFT (BLUE)", "SHIFT 1 (RED)", "SHIFT 2 (BLUE)", "SHIFT 3 (RED)", "SHIFT 4 (BLUE)", "ENDGAME (BLUE)"], correctRanks: [1, 2, 3, 4, 5, 6, 7] }
     ];
 
     // State Variables
@@ -468,7 +469,6 @@
     }
 
     function submitOrNext() {
-        // Prevent action if paused
         if (isPaused) return; 
 
         if (!answeredCorrectly) {
@@ -481,80 +481,77 @@
                 alert("You cannot assign the same rank to multiple items!");
                 return;
             }
-
+            
             attemptsThisQuestion++;
             attemptsEl.innerText = `Attempts: ${attemptsThisQuestion}`;
-            feedbackEl.style.display = "block";
-
+            
             if (result.isCorrect) {
-                answeredCorrectly = true;
-                if (attemptsThisQuestion === 1) score++; 
-                scoreDisp.innerText = score;
-                
+                feedbackEl.innerHTML = "✅ Correct! " + result.correctAnswerText;
                 feedbackEl.className = "feedback correct";
-                feedbackEl.innerHTML = "✅ Correct!";
-                
-                document.querySelectorAll('.answer-input').forEach(input => input.disabled = true);
-                nextBtn.innerText = currentStep === quizData.length - 1 ? "Show Results" : "Next Question";
-            } else {
-                feedbackEl.className = "feedback incorrect";
+                feedbackEl.style.display = "block";
                 
                 if (attemptsThisQuestion === 1) {
-                    missedQuestions.push(quizOrder[currentStep]);
+                    score++;
+                } else if (attemptsThisQuestion > 1) {
+                    // Missed on first try
+                    if (!missedQuestions.includes(quizOrder[currentStep])) {
+                        missedQuestions.push(quizOrder[currentStep]);
+                    }
                 }
-                
-                if (attemptsThisQuestion >= 2) {
-                    feedbackEl.innerHTML = `❌ Incorrect! The correct answer is:<br><br>${result.correctAnswerText}<br><br><em>Please input the correct answer above to continue.</em>`;
-                } else {
-                    feedbackEl.innerHTML = "❌ Incorrect! Try again.";
-                }
+                answeredCorrectly = true;
+                nextBtn.innerText = "Next Question";
+            } else {
                 triggerShake();
+                feedbackEl.innerHTML = "❌ Incorrect, please try again.";
+                feedbackEl.className = "feedback incorrect";
+                feedbackEl.style.display = "block";
+                
+                if (attemptsThisQuestion === 1) {
+                    if (!missedQuestions.includes(quizOrder[currentStep])) {
+                        missedQuestions.push(quizOrder[currentStep]);
+                    }
+                }
             }
+            
+            updateProgress();
+            
         } else {
+            // Move to next question or finish quiz
             currentStep++;
             if (currentStep < quizData.length) {
                 loadQuestion();
             } else {
-                finishQuiz();
+                endQuiz();
             }
         }
     }
 
-    function finishQuiz() {
+    function endQuiz() {
         clearInterval(timerInterval);
-        localStorage.removeItem(LS_KEY); 
+        localStorage.removeItem(LS_KEY);
         
-        switchScreen('result');
         document.getElementById("final-score").innerText = score;
         document.getElementById("final-total").innerText = quizData.length;
         document.getElementById("final-time").innerText = formatTime(elapsedTime);
         
         const missedContainer = document.getElementById("missed-container");
         if (missedQuestions.length > 0) {
-            let html = `<h3>Questions to Review:</h3><ul>`;
-            missedQuestions.forEach(qIndex => {
-                html += `<li>${quizData[qIndex].question}</li>`;
+            let html = "<h3>Questions Missed or Needing Multiple Attempts:</h3><ul>";
+            missedQuestions.forEach(idx => {
+                html += `<li>${quizData[idx].question}</li>`;
             });
-            html += `</ul>`;
+            html += "</ul>";
             missedContainer.innerHTML = html;
+            missedContainer.style.display = "block";
         } else {
-            missedContainer.innerHTML = `<h3>Perfect Run!</h3><p style="margin:0;">You didn't miss a single question on your first try. Excellent job.</p>`;
-            missedContainer.style.backgroundColor = "#d4edda";
-            missedContainer.style.borderColor = "#c3e6cb";
-            missedContainer.style.color = "#155724";
+            missedContainer.style.display = "none";
         }
+        
+        switchScreen('result');
     }
 
-    document.addEventListener("keypress", function(event) {
-        if (event.key === "Enter" && screens.quiz.classList.contains('active') && !isPaused) {
-            event.preventDefault();
-            document.getElementById("next-btn").click();
-        }
-    });
-
-    // Start
+    // Initialize
     init();
 </script>
-
 </body>
 </html>
