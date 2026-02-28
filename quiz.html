@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 FRC REBUILT Comprehensive Rules Quiz</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .quiz-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 750px;
+            transition: transform 0.1s ease-in-out;
+            position: relative;
+        }
+        
+        /* Smooth Transitions */
+        .fade-content {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .fade-out {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        /* Shake animation */
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            50% { transform: translateX(8px); }
+            75% { transform: translateX(-8px); }
+            100% { transform: translateX(0); }
+        }
+        .shake { animation: shake 0.4s; }
+
+        h1 { text-align: center; color: #0066cc; font-size: 24px; margin-bottom: 5px; }
+        
+        /* Top Bar: Timer & Progress */
+        .top-bar { display: flex; justify-content: space-between; font-weight: bold; color: #666; margin-bottom: 10px; font-size: 14px; }
+        .stopwatch { color: #d9534f; }
+        
+        /* Progress Bar */
+        .progress-bar-container { width: 100%; background-color: #e0e0e0; border-radius: 5px; height: 10px; overflow: hidden; margin-bottom: 5px; }
+        .progress-fill { height: 100%; background-color: #0066cc; width: 0%; transition: width 0.4s ease; }
+        .progress-text { text-align: center; font-size: 14px; color: #666; font-weight: bold; margin-bottom: 20px; }
+
+        .question { font-size: 18px; font-weight: bold; margin-bottom: 10px; line-height: 1.4; }
+        .instruction { font-size: 14px; color: #d9534f; margin-bottom: 15px; font-style: italic; }
+        
+        .options { list-style-type: none; padding: 0; margin: 0; }
+        .options li { margin-bottom: 10px; }
+        .options label { display: flex; align-items: center; padding: 12px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; transition: background-color 0.2s; line-height: 1.3; }
+        .options label:hover { background-color: #eef5ff; }
+        .options input { margin-right: 15px; transform: scale(1.2); }
+        
+        .ranking-row { display: flex; justify-content: space-between; align-items: center; padding: 12px; background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px; }
+        .ranking-row select { padding: 8px; border-radius: 4px; border: 1px solid #ccc; font-size: 16px; margin-left: 15px; }
+        
+        /* Buttons */
+        .btn { background-color: #0066cc; color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; width: 100%; margin-top: 15px; transition: background-color 0.2s; font-weight: bold; }
+        .btn:hover { background-color: #005bb5; }
+        .btn-secondary { background-color: #6c757d; }
+        .btn-secondary:hover { background-color: #5a6268; }
+        .btn-danger { background-color: #dc3545; }
+        .btn-danger:hover { background-color: #c82333; }
+
+        .controls-row { display: flex; gap: 10px; margin-top: 20px; }
+
+        .feedback { padding: 15px; border-radius: 5px; margin-top: 15px; display: none; font-weight: bold; line-height: 1.4; }
+        .feedback.correct { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .feedback.incorrect { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .attempts-counter { font-size: 12px; color: #888; margin-top: 5px; text-align: right; }
+
+        /* Screens */
+        #start-screen, #quiz-screen, #result-screen { display: none; }
+        #start-screen.active, #quiz-screen.active, #result-screen.active { display: block; }
+        
+        /* Paused overlay */
+        #paused-screen { display: none; text-align: center; padding: 50px 0; }
+        
+        .start-options { margin: 30px 0; text-align: center; }
+        .start-options label { font-size: 18px; cursor: pointer; display: inline-flex; align-items: center; }
+        .start-options input { transform: scale(1.5); margin-right: 10px; }
+        
+        .missed-review { background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 15px; border-radius: 5px; margin-top: 20px; text-align: left; }
+        .missed-review h3 { margin-top: 0; font-size: 18px; border-bottom: 1px solid #ffeeba; padding-bottom: 5px; }
+        .missed-review ul { padding-left: 20px; margin-bottom: 0; }
+        .missed-review li { margin-bottom: 8px; font-weight: 500; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container" id="main-container">
+    <h1>📚 2026 REBUILT Full Rules Test</h1>
+    
+    <div id="start-screen" class="active">
+        <p style="text-align: center; color: #666;">Test your knowledge of the manual. Your progress will be saved automatically.</p>
+        
+        <div class="start-options">
+            <label>
+                <input type="checkbox" id="shuffle-checkbox"> Shuffle Questions
+            </label>
+        </div>
+        
+        <button class="btn" id="start-btn" onclick="startNewQuiz()">Start New Quiz</button>
+        <button class="btn btn-secondary" id="resume-btn" onclick="resumeQuiz()" style="display: none; margin-top: 10px;">Resume Saved Quiz</button>
+    </div>
+
+    <div id="quiz-screen">
+        <div class="top-bar">
+            <span>Score: <span id="current-score-disp">0</span></span>
+            <span class="stopwatch">⏱ <span id="timer-disp">00:00</span></span>
+        </div>
+        
+        <div class="progress-bar-container">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div class="progress-text" id="progress-text">Question 1 of X</div>
+        
+        <div id="paused-screen">
+            <h2 style="color: #6c757d;">⏸ Test Paused</h2>
+            <p style="color: #666;">Timer is stopped and content is hidden.</p>
+        </div>
+
+        <div id="question-content" class="fade-content">
+            <div class="question" id="question">Question goes here</div>
+            <div class="instruction" id="instruction"></div>
+            <div id="input-area"></div>
+            <div class="attempts-counter" id="attempts-counter">Attempts: 0</div>
+            <div class="feedback" id="feedback"></div>
+        </div>
+
+        <button class="btn" id="next-btn" onclick="submitOrNext()">Submit Answer</button>
+
+        <div class="controls-row">
+            <button class="btn btn-secondary" id="pause-btn" style="margin-top: 0;" onclick="togglePause()">Pause</button>
+            <button class="btn btn-danger" style="margin-top: 0;" onclick="confirmRestart()">Restart Test</button>
+        </div>
+    </div>
+
+    <div id="result-screen">
+        <h2 style="text-align: center;">Quiz Completed! 🎉</h2>
+        <p style="text-align: center; font-size: 18px;">Your First-Try Score: <strong id="final-score" style="color: #0066cc;">0</strong> out of <strong id="final-total">0</strong></p>
+        <p style="text-align: center; font-size: 18px;">Total Time: <strong id="final-time" style="color: #d9534f;">00:00</strong></p>
+        
+        <div id="missed-container" class="missed-review">
+            </div>
+
+        <button class="btn" onclick="location.reload()" style="margin-top: 25px;">Back to Start Menu</button>
+    </div>
+</div>
+
+<script>
+    const quizData = [
+        // GENERAL
+        { type: "radio", question: "What is Coopertition?", options: ["Always tearing your opponents down", "Displaying kindness and respect in the face of fierce competition", "Doing whatever it takes to win"], correct: 1 },
+        { type: "radio", question: "What does GP stand for?", options: ["Grand Prix", "Gracious Professionalism", "Good Professionalism", "Grated Parmesan"], correct: 1 },
+        
+        // FIELD RULES
+        { type: "radio", question: "How tall is the space under the TRENCH arm? (5.6)", options: ["22.25 in (56.52 cm) tall", "20.50 in (52.07cm) tall", "23.50 in (59.69 cm) tall", "21.75 in (55.25 cm) tall"], correct: 0 },
+        { type: "radio", question: "How tall is the DEPOT taking into account the hook fastener? (5.7)", options: ["2.125 in (5.40 cm)", "3.0 in (7.62 cm)", "1.0 in (2.54 cm)", "1.125 in (2.86 cm)"], correct: 3 },
+        { type: "radio", question: "How many seconds before deactivation does the ALLIANCE color on the HUB pulse? (5.4)", options: ["4", "5", "2", "3"], correct: 3 },
+        { type: "radio", question: "How tall are each of the RUNGS from the ground? (5.8)", options: ["28.0 in (71.12 cm), 46.0 in (116.84 cm), 72.0 in (182.88 cm)", "27.0 in (68.58 cm), 45.0 in (114.3cm), 63.0 in (1.6 m)", "27.0 in (68.58 cm), 46.0 in (116.84 cm), 72.0 in (182.88 cm)", "29.0 in (73.66 cm), 45.0 in (114.3 cm), 59.0 in (149.86 cm)"], correct: 1 },
+        { type: "radio", question: "How tall is the bottom of the OUTPOST from the floor? (5.9.2)", options: ["35.8 in (90.8 cm)", "32.0 in (81.3 cm)", "28.1 in (71.4 cm)", "31.8 in (80.8 cm)"], correct: 2 },
+        { type: "radio", question: "What are the dimensions of the SCORING ELEMENT? (5.10.1)", options: ["1.66 in (4.216 cm)", "8.13 in (20.6 cm)", "7.0 in (17.8 cm)", "5.91 in (15.0 cm)"], correct: 2 },
+        { type: "radio", question: "How far up is the front edge of each HUB’s hexagonal opening from the carpet? (5.4)", options: ["72 in (~1.83m)", "65.65 in (1.668m)", "73.0 in (1.854m)", "42.0 in (1.07m)"], correct: 0 },
+        { type: "radio", question: "What zone(s)/area(s) can the robot score in the HUB from? (7.4.2)", options: ["Alliance Zone", "Alliance Area", "Neutral Zone", "Outpost Area"], correct: 0 },
+        { type: "radio", question: "How tall is the peak of the BUMPS? (5.6)", options: ["7.823 in (19.8 cm)", "6.852 in (17.4 cm)", "7.231 in (18.37 cm)", "6.513 in (16.54 cm)"], correct: 3 },
+        { type: "radio", question: "How many of each field element are on the field for each alliance? (5.2)", options: ["1 OUTPOST, 1 HUB, 1 TOWER, 2 DEPOTS, 2 BUMPS, 2 TRENCHES", "1 OUTPOST, 1 HUB, 1 TOWER, 1 DEPOT, 2 BUMPS, 2 TRENCHES", "2 OUTPOST, 2 HUB, 2 TOWERS, 2 DEPOTS, 4 BUMPS, 4 TRENCHES", "1 OUTPOST, 1 HUB, 2 TOWERS, 1 DEPOT, 4 BUMPS, 4 TRENCHES"], correct: 1 },
+
+        // GAME RULES
+        { type: "checkbox", question: "How many points is each of the following actions worth in AUTO? (6.5.3)", options: ["EACH ROBOT at LEVEL 1 of the TOWER (2 max): 15", "FUEL scored in an active HUB: 2", "Each ROBOT at LEVEL 3 of the TOWER: 35", "FUEL scored in an active HUB: 1", "Each ROBOT at LEVEL 2 of the TOWER: 25", "FUEL scored in an inactive HUB: 1"], correct: [0, 1] },
+        { type: "radio", question: "How many FUEL can a ROBOT CONTROL after the start of the MATCH? (5.10)", options: ["24", "12", "Any number of FUEL", "8"], correct: 2 },
+        { type: "checkbox", question: "How many points is each of the following TOWER actions worth in END GAME? (6.5.3)", options: ["EACH ROBOT at LEVEL 1 of the TOWER: 15", "EACH ROBOT at LEVEL 1 of the TOWER: 10", "EACH ROBOT at LEVEL 2 of the TOWER: 30", "EACH ROBOT at LEVEL 2 of the TOWER: 20", "EACH ROBOT at LEVEL 3 of the TOWER: 30", "EACH ROBOT at LEVEL 3 of the TOWER: 25"], correct: [1, 3, 4] },
+        { type: "radio", question: "How many points is each of the following actions worth in TELE? (6.5.3)", options: ["FUEL scored in an inactive HUB: 2", "FUEL scored in an active HUB: 2", "FUEL scored in an active HUB: 1", "FUEL scored in an active HUB: 3"], correct: 2 },
+        { type: "radio", question: "FUEL may only be introduced to the FIELD by a HUMAN PLAYER or DRIVER in which of the following ways? (7.4.5)", options: ["Through the LOADING STATION", "Thrown from the OUTPOST AREA", "Through the CHUTE", "Through the bottom opening in the OUTPOST"], correct: 3 },
+        { type: "checkbox", question: "How long is each part of the MATCH? Select all that are correct. (6.4)", options: ["AUTO: 20 sec", "ENDGAME: 30 sec", "ENDGAME: 15 sec", "ALLIANCE SHIFT: 25 sec", "TRANSITION SHIFT: 15 sec", "AUTO: 15 sec", "TRANSITION SHIFT: 10 sec", "ALLIANCE SHIFT: 30 sec"], correct: [0, 6, 7] },
+        { type: "radio", question: "How will FUEL be distributed in the NEUTRAL ZONE? (6.3.4)", options: ["A variable number in a roughly grid-shaped format with roughly equal split", "A constant number in a perfect grid with equal split", "A constant number in a roughly grid-shaped format", "A variable number in a perfect grid"], correct: 0 },
+        { type: "radio", question: "What is the penalty for contacting a ROBOT, directly or transitively, in contact with an opponent TOWER during the last 30 seconds of the MATCH? (7.4.4)", options: ["MINOR FOUL and opponent ROBOT awarded LEVEL 2 TOWER points", "MAJOR FOUL and opponent ROBOT awarded LEVEL 3 TOWER points", "MINOR FOUL and opponent ROBOT awarded LEVEL 1 TOWER points", "MAJOR FOUL and opponent ROBOT awarded LEVEL 2 TOWER points"], correct: 1 },
+        { type: "radio", question: "How are FUEL staged at the start of each MATCH? (6.3.4)", options: ["24 in DEPOT, 24 in OUTPOST CHUTE, 12 preloaded, 360-408 in NEUTRAL ZONE", "32 in DEPOT, 24 in OUTPOST CHUTE, 8 preloaded, 400-500 in NEUTRAL ZONE", "20 in DEPOT, 20 in OUTPOST CHUTE, 10 preloaded, 240-360 in NEUTRAL ZONE", "24 in DEPOT, 24 in OUTPOST CHUTE, 8 preloaded, 360-408 in NEUTRAL ZONE"], correct: 3 },
+        { type: "checkbox", question: "Which of the following may the ROBOT contact and still qualify for TOWER points? (6.5.2)", options: ["The TOWER WALL", "The CARPET", "FUEL", "The TOWER BASE", "Another ROBOT", "The RUNGS", "The UPRIGHTS"], correct: [0, 5, 6] },
+
+        // ROBOT RULES
+        { type: "radio", question: "What is the maximum robot perimeter and height in a robot's starting configuration? (8.1)", options: ["Height: 35.0 in, Perimeter: 110.0 cm", "Height: 45.0 in, Perimeter: 115.0 in", "Height: 30.0 in, Perimeter: 110.0 in", "Height: 25.0 in, Perimeter: 120.0 in"], correct: 2 },
+        { type: "radio", question: "What is the maximum vertical height limit? (8.1)", options: ["55.0in (1.397 m)", "45.0in (1.143 m)", "30.0in (0.762 m)", "25.0in (0.635 m)"], correct: 2 },
+        { type: "radio", question: "What is the maximum ROBOT weight with and without BUMPERS? (8.1 & 8.4)", options: ["125 lb without bumpers, no limit with", "115lb without bumpers, 135lb with bumpers", "125lb without bumpers, 135 lb with bumpers", "115lb without bumpers, 125lb with bumpers"], correct: 1 },
+        { type: "radio", question: "In how many directions can a robot extend beyond the robot perimeter at a time? (8.1)", options: ["0", "2", "1", "All direction"], correct: 2 },
+        { type: "radio", question: "Is the ROBOT PERIMETER defined as with or without BUMPERS? (8.1)", options: ["With bumpers", "Without bumpers"], correct: 1 },
+        { type: "radio", question: "Scenario: If your robot's starting vertical configuration is 30in (76.2cm), how much can you expand vertically once the match starts?", options: ["30in (76.2cm)", "0in (0cm)", "12in (30.48cm)", "10in (25.4cm)"], correct: 1 },
+        { type: "radio", question: "How far can the ROBOT expand beyond the ROBOT PERIMETER during the match? (8.1)", options: ["0 in (0 cm)", "1 ft 6 in (45.72 cm)", "6 in (15.24 cm)", "1 ft (30.48 cm)"], correct: 3 },
+        { type: "radio", question: "What are the depth and height of foam padding for BUMPERS respectively? (8.4)", options: ["2 ¼ in, 4 ½ in", "3 in, 5 ¼ in", "2 in, 4 in", "2 ½ in, 5 in"], correct: 3 },
+
+        // TOURNAMENT RULES
+        { type: "ranking", question: "If final MATCH scores for both ALLIANCES in a Playoff MATCH are equal, the win is awarded to the ALLIANCE per… (10.6.2.1)", options: ["ALLIANCE AUTO FUEL points", "MATCH is replayed", "ALLIANCE TOWER points", "Cumulative MAJOR FOUL points due to opponent rule violations"], correctRanks: [2, 4, 3, 1] },
+        { type: "radio", question: "How much FUEL must be scored to gain the SUPERCHARGED Ranking Point? (6.5.3)", options: ["180", "360", "100", "504"], correct: 1 },
+        { type: "radio", question: "How many ranking points is a TIE worth? (6.5.3)", options: ["3 RP", "1 RP", "2 RP", "0 RP"], correct: 1 },
+        { type: "radio", question: "How much FUEL must be scored to gain the ENERGIZED Ranking Point? (6.5.3)", options: ["100", "504", "360", "180"], correct: 0 },
+        { type: "radio", question: "How many ranking points is a WIN worth? (6.5.3)", options: ["3 RP", "2 RP", "1 RP", "4 RP"], correct: 1 },
+        { type: "radio", question: "What elimination system is used in tournaments? (10.6.2)", options: ["Elimination tournament", "Alliance elimination system", "Round robin", "Single elimination tournament", "Double elimination tournament"], correct: 4 },
+        { type: "radio", question: "Which of the following situations will result in a MATCH Replay? (10.2)", options: ["Broken FIELD elements due to normal play", "ROBOT abuse of FIELD elements", "Power failure to a portion of the FIELD", "A ROBOT radio disconnect"], correct: 2 },
+        { type: "checkbox", question: "In what cases does a team that normally scores 3 Ranking Points earn 0? (10.5.3)", options: ["A SURROGATE receives 0 Ranking Points.", "A DISQUALIFIED team receives 0 Ranking Points.", "A “no-show” team receives 0 Ranking Points.", "A team is issued a YELLOW CARD during a MATCH"], correct: [0, 1, 2] },
+        { type: "radio", question: "Which of the following combinations of TOWER climbs will gain the TRAVERSAL Ranking Point? (6.5.3)", options: ["One LEVEL 1 climb in AUTO, two LEVEL 2 climbs in TELEOP", "One LEVEL 1 climb in AUTO, three LEVEL 1 climbs in TELEOP", "One LEVEL 2 climb and one LEVEL 3 climb in TELEOP", "Two LEVEL 3 climbs in TELEOP", "Two LEVEL 1 climbs in AUTO, one LEVEL 1 climb in TELEOP"], correct: 3 },
+        { type: "radio", question: "What is the maximum number of Ranking Points an alliance can earn in a single match? (6.5.3)", options: ["4 RP", "7 RP", "5 RP", "3 RP", "6 RP"], correct: 2 },
+        { type: "ranking", question: "What is the order of the Qualification MATCH ranking criteria? (10.5.3)", options: ["Average ALLIANCE MATCH points, not including FOULS", "Ranking Score", "Average TOWER points", "Random sorting by the FMS", "Average FUEL scored in AUTO"], correctRanks: [4, 1, 3, 5, 2] }
+    ];
+
+    // State Variables
+    let quizOrder = [];
+    let currentStep = 0;
+    let score = 0;
+    let missedQuestions = [];
+    let isPaused = false;
+    
+    let answeredCorrectly = false;
+    let attemptsThisQuestion = 0;
+    
+    // Timer Variables
+    let elapsedTime = 0; 
+    let timerInterval = null;
+
+    // DOM Elements
+    const screens = {
+        start: document.getElementById('start-screen'),
+        quiz: document.getElementById('quiz-screen'),
+        result: document.getElementById('result-screen')
+    };
+    const fadeContainer = document.getElementById("question-content");
+    const questionEl = document.getElementById("question");
+    const instructionEl = document.getElementById("instruction");
+    const inputAreaEl = document.getElementById("input-area");
+    const nextBtn = document.getElementById("next-btn");
+    const pauseBtn = document.getElementById("pause-btn");
+    const pausedScreen = document.getElementById("paused-screen");
+    const feedbackEl = document.getElementById("feedback");
+    const attemptsEl = document.getElementById("attempts-counter");
+    
+    const progressText = document.getElementById("progress-text");
+    const progressFill = document.getElementById("progress-fill");
+    const scoreDisp = document.getElementById("current-score-disp");
+    const timerDisp = document.getElementById("timer-disp");
+
+    const LS_KEY = "frc2026_quiz_save";
+
+    // --- Initialization & Local Storage ---
+    function init() {
+        const savedData = localStorage.getItem(LS_KEY);
+        if (savedData) {
+            document.getElementById("resume-btn").style.display = "inline-block";
+        }
+    }
+
+    function switchScreen(screenName) {
+        Object.values(screens).forEach(s => s.classList.remove('active'));
+        screens[screenName].classList.add('active');
+    }
+
+    function startNewQuiz() {
+        localStorage.removeItem(LS_KEY);
+        
+        quizOrder = Array.from({length: quizData.length}, (_, i) => i);
+        if (document.getElementById("shuffle-checkbox").checked) {
+            for (let i = quizOrder.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [quizOrder[i], quizOrder[j]] = [quizOrder[j], quizOrder[i]];
+            }
+        }
+        
+        currentStep = 0;
+        score = 0;
+        missedQuestions = [];
+        elapsedTime = 0;
+        isPaused = false;
+        
+        switchScreen('quiz');
+        startTimer();
+        loadQuestion();
+    }
+
+    function resumeQuiz() {
+        const savedData = JSON.parse(localStorage.getItem(LS_KEY));
+        quizOrder = savedData.quizOrder;
+        currentStep = savedData.currentStep;
+        score = savedData.score;
+        missedQuestions = savedData.missedQuestions || [];
+        elapsedTime = savedData.elapsedTime;
+        isPaused = false;
+        
+        switchScreen('quiz');
+        startTimer();
+        loadQuestion();
+    }
+
+    function saveProgress() {
+        const dataToSave = {
+            quizOrder, currentStep, score, missedQuestions, elapsedTime
+        };
+        localStorage.setItem(LS_KEY, JSON.stringify(dataToSave));
+    }
+
+    // --- Timer ---
+    function formatTime(seconds) {
+        const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+        const s = (seconds % 60).toString().padStart(2, '0');
+        return `${m}:${s}`;
+    }
+
+    function startTimer() {
+        clearInterval(timerInterval);
+        timerDisp.innerText = formatTime(elapsedTime);
+        timerInterval = setInterval(() => {
+            elapsedTime++;
+            timerDisp.innerText = formatTime(elapsedTime);
+            if(elapsedTime % 5 === 0) saveProgress(); 
+        }, 1000);
+    }
+
+    // --- Pause & Restart Actions ---
+    function togglePause() {
+        isPaused = !isPaused;
+        
+        if (isPaused) {
+            clearInterval(timerInterval);
+            fadeContainer.style.display = "none";
+            nextBtn.style.display = "none";
+            pausedScreen.style.display = "block";
+            pauseBtn.innerText = "Resume";
+            pauseBtn.classList.replace("btn-secondary", "btn");
+        } else {
+            startTimer();
+            fadeContainer.style.display = "block";
+            nextBtn.style.display = "block";
+            pausedScreen.style.display = "none";
+            pauseBtn.innerText = "Pause";
+            pauseBtn.classList.replace("btn", "btn-secondary");
+        }
+    }
+
+    function confirmRestart() {
+        if (confirm("⚠️ Are you sure you want to restart the test? All your current progress will be lost!")) {
+            startNewQuiz();
+        }
+    }
+
+    // --- Quiz Logic ---
+    function updateProgress() {
+        const perc = ((currentStep) / quizData.length) * 100;
+        progressFill.style.width = `${perc}%`;
+        progressText.innerText = `Question ${currentStep + 1} of ${quizData.length}`;
+        scoreDisp.innerText = score;
+    }
+
+    function loadQuestion() {
+        saveProgress();
+        
+        answeredCorrectly = false;
+        attemptsThisQuestion = 0;
+        attemptsEl.innerText = `Attempts: 0`;
+        feedbackEl.style.display = "none";
+        feedbackEl.className = "feedback";
+        nextBtn.innerText = "Submit Answer";
+        
+        updateProgress();
+        
+        const qIndex = quizOrder[currentStep];
+        const qData = quizData[qIndex];
+        
+        fadeContainer.classList.add("fade-out");
+        
+        setTimeout(() => {
+            questionEl.innerText = `${currentStep + 1}. ${qData.question}`;
+            inputAreaEl.innerHTML = "";
+            
+            if (qData.type === "radio") {
+                instructionEl.innerText = "Select one answer.";
+                const ul = document.createElement("ul");
+                ul.className = "options";
+                qData.options.forEach((option, index) => {
+                    ul.innerHTML += `<li><label><input type="radio" name="answer" value="${index}" class="answer-input"> ${option}</label></li>`;
+                });
+                inputAreaEl.appendChild(ul);
+            } else if (qData.type === "checkbox") {
+                instructionEl.innerText = "Select ALL correct answers.";
+                const ul = document.createElement("ul");
+                ul.className = "options";
+                qData.options.forEach((option, index) => {
+                    ul.innerHTML += `<li><label><input type="checkbox" name="answer" value="${index}" class="answer-input"> ${option}</label></li>`;
+                });
+                inputAreaEl.appendChild(ul);
+            } else if (qData.type === "ranking") {
+                instructionEl.innerText = "Select the correct rank for each item (1 = first step, 2 = second, etc.)";
+                qData.options.forEach((option, index) => {
+                    const row = document.createElement("div");
+                    row.className = "ranking-row";
+                    let selectHTML = `<select class="answer-input rank-select" data-index="${index}"><option value="">-Rank-</option>`;
+                    for (let i = 1; i <= qData.options.length; i++) {
+                        selectHTML += `<option value="${i}">${i}</option>`;
+                    }
+                    selectHTML += `</select>`;
+                    row.innerHTML = `<span>${option}</span> ${selectHTML}`;
+                    inputAreaEl.appendChild(row);
+                });
+            }
+            
+            fadeContainer.classList.remove("fade-out");
+        }, 250);
+    }
+
+    function checkAnswer() {
+        const qIndex = quizOrder[currentStep];
+        const qData = quizData[qIndex];
+        let isCorrect = false;
+        let correctAnswerText = "";
+        let error = null;
+
+        if (qData.type === "radio") {
+            const selected = document.querySelector('input[name="answer"]:checked');
+            if (!selected) return null; 
+            isCorrect = (parseInt(selected.value) === qData.correct);
+            correctAnswerText = `<strong>${qData.options[qData.correct]}</strong>`;
+        } else if (qData.type === "checkbox") {
+            const checkedBoxes = document.querySelectorAll('input[name="answer"]:checked');
+            if (checkedBoxes.length === 0) return null; 
+            let selectedVals = Array.from(checkedBoxes).map(cb => parseInt(cb.value)).sort();
+            let correctVals = [...qData.correct].sort();
+            isCorrect = JSON.stringify(selectedVals) === JSON.stringify(correctVals);
+            let correctArr = qData.correct.map(idx => `<li>${qData.options[idx]}</li>`);
+            correctAnswerText = `<ul style="margin:5px 0; padding-left: 20px;">${correctArr.join("")}</ul>`;
+        } else if (qData.type === "ranking") {
+            const selects = document.querySelectorAll('.rank-select');
+            let allFilled = true, userRanks = [];
+            selects.forEach(sel => {
+                if (sel.value === "") allFilled = false;
+                userRanks.push(parseInt(sel.value));
+            });
+            if (!allFilled) return null;
+            if (new Set(userRanks).size !== userRanks.length) return { error: "duplicate" }; 
+            isCorrect = JSON.stringify(userRanks) === JSON.stringify(qData.correctRanks);
+            let orderArray = new Array(qData.options.length);
+            for(let i=0; i<qData.correctRanks.length; i++){
+                orderArray[qData.correctRanks[i]-1] = qData.options[i];
+            }
+            let correctArr = orderArray.map((opt, i) => `<li>${i+1}: ${opt}</li>`);
+            correctAnswerText = `<ol style="margin:5px 0; padding-left: 20px;">${correctArr.join("")}</ol>`;
+        }
+        
+        return { isCorrect, error, correctAnswerText };
+    }
+
+    function triggerShake() {
+        document.getElementById("main-container").classList.add("shake");
+        setTimeout(() => document.getElementById("main-container").classList.remove("shake"), 400);
+    }
+
+    function submitOrNext() {
+        // Prevent action if paused
+        if (isPaused) return; 
+
+        if (!answeredCorrectly) {
+            const result = checkAnswer();
+            if (result === null) {
+                alert("Please answer the question entirely before submitting.");
+                return;
+            }
+            if (result.error === "duplicate") {
+                alert("You cannot assign the same rank to multiple items!");
+                return;
+            }
+
+            attemptsThisQuestion++;
+            attemptsEl.innerText = `Attempts: ${attemptsThisQuestion}`;
+            feedbackEl.style.display = "block";
+
+            if (result.isCorrect) {
+                answeredCorrectly = true;
+                if (attemptsThisQuestion === 1) score++; 
+                scoreDisp.innerText = score;
+                
+                feedbackEl.className = "feedback correct";
+                feedbackEl.innerHTML = "✅ Correct!";
+                
+                document.querySelectorAll('.answer-input').forEach(input => input.disabled = true);
+                nextBtn.innerText = currentStep === quizData.length - 1 ? "Show Results" : "Next Question";
+            } else {
+                feedbackEl.className = "feedback incorrect";
+                
+                if (attemptsThisQuestion === 1) {
+                    missedQuestions.push(quizOrder[currentStep]);
+                }
+                
+                if (attemptsThisQuestion >= 2) {
+                    feedbackEl.innerHTML = `❌ Incorrect! The correct answer is:<br><br>${result.correctAnswerText}<br><br><em>Please input the correct answer above to continue.</em>`;
+                } else {
+                    feedbackEl.innerHTML = "❌ Incorrect! Try again.";
+                }
+                triggerShake();
+            }
+        } else {
+            currentStep++;
+            if (currentStep < quizData.length) {
+                loadQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+    }
+
+    function finishQuiz() {
+        clearInterval(timerInterval);
+        localStorage.removeItem(LS_KEY); 
+        
+        switchScreen('result');
+        document.getElementById("final-score").innerText = score;
+        document.getElementById("final-total").innerText = quizData.length;
+        document.getElementById("final-time").innerText = formatTime(elapsedTime);
+        
+        const missedContainer = document.getElementById("missed-container");
+        if (missedQuestions.length > 0) {
+            let html = `<h3>Questions to Review:</h3><ul>`;
+            missedQuestions.forEach(qIndex => {
+                html += `<li>${quizData[qIndex].question}</li>`;
+            });
+            html += `</ul>`;
+            missedContainer.innerHTML = html;
+        } else {
+            missedContainer.innerHTML = `<h3>Perfect Run!</h3><p style="margin:0;">You didn't miss a single question on your first try. Excellent job.</p>`;
+            missedContainer.style.backgroundColor = "#d4edda";
+            missedContainer.style.borderColor = "#c3e6cb";
+            missedContainer.style.color = "#155724";
+        }
+    }
+
+    document.addEventListener("keypress", function(event) {
+        if (event.key === "Enter" && screens.quiz.classList.contains('active') && !isPaused) {
+            event.preventDefault();
+            document.getElementById("next-btn").click();
+        }
+    });
+
+    // Start
+    init();
+</script>
+
+</body>
+</html>
